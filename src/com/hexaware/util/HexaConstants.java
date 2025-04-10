@@ -14,8 +14,8 @@ public class HexaConstants {
     //QUERIES
 
     //SELECT
-    public static final String GET_CUSTOMER_BY_ID = "SELECT 1 FROM customers WHERE customer_id = ?";
-    public static final String GET_PRODUCT_BY_ID = "SELECT 1 FROM products WHERE product_id = ?";
+    public static final String GET_CUSTOMER_BY_ID = "SELECT * FROM customers WHERE customer_id = ?";
+    public static final String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE product_id = ?";
     public static final String GET_PRODUCT_BY_CUSTOMER_ID = "SELECT p.* FROM cart c JOIN products p ON c.product_id = p.product_id WHERE c.customer_id = ?";
     public static final String GET_ORDERS_BY_CUSTOMER = "SELECT oi.product_id, oi.quantity, p.name, p.price, p.description, p.stockQuantity " +
             "FROM orders o " +
@@ -43,7 +43,6 @@ public class HexaConstants {
 
     //VARIABLE NAMES
     public static final String DELIMITER=",";
-    public static final String ORDER_ID="";
     public static final String CUSTOMER_WITH_ID="Customer with ID ";
     public static final String PRODUCT_WITH_ID="Product with ID ";
     public static final String PRODUCT_ID="product_id";

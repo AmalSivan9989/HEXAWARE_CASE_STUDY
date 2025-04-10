@@ -7,7 +7,7 @@ import com.hexaware.exception.DbConnectionException;
 import com.hexaware.exception.ProductNotFoundException;
 import com.hexaware.util.DBConnection;
 import com.hexaware.util.HexaConstants;
-import com.hexaware.util.PropertyUtil;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean addToCart(Customers customer, Products product, int quantity) {
-
         String checkCustomerSql = HexaConstants.GET_CUSTOMER_BY_ID;
         try (PreparedStatement ps = connection.prepareStatement(checkCustomerSql)) {
             ps.setInt(1, customer.getCustomerId());
@@ -79,7 +78,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
     }
 
     @Override
-    public boolean createProduct(Products product) {
+    public boolean createProduct(Products product){
         String sql = HexaConstants.INSERT_VALUES_INTO_PRODUCT;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, product.getProductName());

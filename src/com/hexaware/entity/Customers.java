@@ -17,12 +17,6 @@ public class Customers {
         this.password = password;
     }
 
-    public Customers(int customerId, String customerName, String email, String password) {
-        CustomerId = customerId;
-        this.customerName = customerName;
-        this.email = email;
-        this.password = password;
-    }
 
     public int getCustomerId() {
         return CustomerId;

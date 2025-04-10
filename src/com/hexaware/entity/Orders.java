@@ -1,5 +1,7 @@
 package com.hexaware.entity;
 
+import com.hexaware.util.HexaConstants;
+
 import java.time.LocalDate;
 
 public class Orders {
@@ -59,4 +61,25 @@ public class Orders {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append(customerId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(orderId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(orderDate);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(totalPrice);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(shippingAddress);
+        sb.append(HexaConstants.DELIMITER);
+
+        return sb.toString();
+    }
+
+
+
 }

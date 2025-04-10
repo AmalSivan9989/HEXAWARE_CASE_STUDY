@@ -6,6 +6,7 @@ import com.hexaware.exception.CustomerNotFoundException;
 import com.hexaware.exception.DbConnectionException;
 import com.hexaware.exception.ProductNotFoundException;
 import com.hexaware.util.DBConnection;
+import com.hexaware.util.HexaConstants;
 import com.hexaware.util.PropertyUtil;
 
 import java.sql.*;
@@ -27,12 +28,12 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
     @Override
     public boolean addToCart(Customers customer, Products product, int quantity) {
 
-        String checkCustomerSql = "SELECT 1 FROM customers WHERE customer_id = ?";
+        String checkCustomerSql = HexaConstants.GET_CUSTOMER_BY_ID;
         try (PreparedStatement ps = connection.prepareStatement(checkCustomerSql)) {
             ps.setInt(1, customer.getCustomerId());
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new CustomerNotFoundException("Customer with ID " + customer.getCustomerId() + " not found.");
+                throw new CustomerNotFoundException(HexaConstants.CUSTOMER_WITH_ID+ customer.getCustomerId() + HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | CustomerNotFoundException e) {
             e.printStackTrace();
@@ -40,18 +41,18 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
         }
 
 
-        String checkProductSql = "SELECT 1 FROM products WHERE product_id = ?";
+        String checkProductSql = HexaConstants.GET_PRODUCT_BY_ID;
         try (PreparedStatement ps = connection.prepareStatement(checkProductSql)) {
             ps.setInt(1, product.getProductId());
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new ProductNotFoundException("Product with ID " + product.getProductId() + " not found.");
+                throw new ProductNotFoundException(HexaConstants.PRODUCT_WITH_ID+ product.getProductId() + HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | ProductNotFoundException e) {
             e.printStackTrace();
             return false;
         }
-        String sql = "INSERT INTO cart (customer_id, product_id, quantity) VALUES (?, ?, ?)";
+        String sql = HexaConstants.INSERT_VALUES_INTO_CART;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customer.getCustomerId());
             ps.setInt(2, product.getProductId());
@@ -65,7 +66,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean createCustomer(Customers customer) {
-        String sql = "INSERT INTO customers (name, email, password) VALUES (?, ?, ?)";
+        String sql = HexaConstants.INSERT_VALUES_INTO_CUSTOMER;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, customer.getCustomerName());
             ps.setString(2, customer.getEmail());
@@ -79,7 +80,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean createProduct(Products product) {
-        String sql = "INSERT INTO products (name, price, description, stockQuantity) VALUES (?, ?, ?, ?)";
+        String sql = HexaConstants.INSERT_VALUES_INTO_PRODUCT;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, product.getProductName());
             ps.setDouble(2, product.getPrice());
@@ -94,18 +95,18 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean deleteCustomer(int customerId)  {
-        String checkSql = "SELECT 1 FROM customers WHERE customer_id = ?";
+        String checkSql = HexaConstants.CHECK_FOR_CUSTOMER_AVAILABILITY;
         try (PreparedStatement ps = connection.prepareStatement(checkSql)) {
             ps.setInt(1, customerId);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new CustomerNotFoundException("Customer with ID " + customerId + " not found.");
+                throw new CustomerNotFoundException(HexaConstants.CUSTOMER_WITH_ID+ customerId +HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | CustomerNotFoundException e) {
             e.printStackTrace();
             return false;
         }
-        String sql = "DELETE FROM customers WHERE customer_id = ?";
+        String sql = HexaConstants.DELETE_CUSTOMER_BY_ID;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customerId);
             return ps.executeUpdate() > 0;
@@ -117,18 +118,18 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean deleteProduct(int productId) {
-        String checkSql = "SELECT 1 FROM products WHERE product_id = ?";
+        String checkSql = HexaConstants.CHECK_FOR_PRODUCT_AVAILABILITY;
         try (PreparedStatement ps = connection.prepareStatement(checkSql)) {
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new ProductNotFoundException("Product with ID " + productId + " not found.");
+                throw new ProductNotFoundException(HexaConstants.PRODUCT_WITH_ID+ productId +HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | ProductNotFoundException e) {
             e.printStackTrace();
             return false;
         }
-        String sql = "DELETE FROM products WHERE product_id = ?";
+        String sql = HexaConstants.DELETE_PRODUCT_BY_ID;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, productId);
             return ps.executeUpdate() > 0;
@@ -141,17 +142,17 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
     @Override
     public List<Products> getAllFromCart(Customers customer) {
         List<Products> products = new ArrayList<>();
-        String sql = "SELECT p.* FROM cart c JOIN products p ON c.product_id = p.product_id WHERE c.customer_id = ?";
+        String sql = HexaConstants.GET_PRODUCT_BY_CUSTOMER_ID;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customer.getCustomerId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 products.add(new Products(
-                        rs.getInt("product_id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("description"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt(HexaConstants.PRODUCT_ID),
+                        rs.getString(HexaConstants.PRODUCT_NAME),
+                        rs.getDouble(HexaConstants.PRODUCT_PRICE),
+                        rs.getString(HexaConstants.PRODUCT_DESCRIPTION),
+                        rs.getInt(HexaConstants.PRODUCT_STOCK_QUANTITY)
                 ));
             }
         } catch (SQLException e) {
@@ -163,24 +164,20 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
     @Override
     public List<Map<Products, Integer>> getOrdersByCustomer(int CustomerId) {
         List<Map<Products, Integer>> orders = new ArrayList<>();
-        String sql = "SELECT oi.product_id, oi.quantity, p.name, p.price, p.description, p.stockQuantity " +
-                "FROM orders o " +
-                "JOIN order_items oi ON o.order_id = oi.order_id " +
-                "JOIN products p ON oi.product_id = p.product_id " +
-                "WHERE o.customer_id = ?";
+        String sql = HexaConstants.GET_ORDERS_BY_CUSTOMER;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, CustomerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Map<Products, Integer> orderItem = new HashMap<>();
                 Products product = new Products(
-                        rs.getInt("product_id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("description"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt(HexaConstants.PRODUCT_ID),
+                        rs.getString(HexaConstants.PRODUCT_NAME),
+                        rs.getDouble(HexaConstants.PRODUCT_PRICE),
+                        rs.getString(HexaConstants.PRODUCT_DESCRIPTION),
+                        rs.getInt(HexaConstants.PRODUCT_STOCK_QUANTITY)
                 );
-                orderItem.put(product, rs.getInt("quantity"));
+                orderItem.put(product, rs.getInt(HexaConstants.QUANTITY));
                 orders.add(orderItem);
             }
         } catch (SQLException e) {
@@ -192,9 +189,9 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean placeOrder(Customers customer, List<Map<Products, Integer>> productQuantityList, String shippingAddress) {
-        String orderSql = "INSERT INTO orders (customer_id, order_date, total_price, shipping_address) VALUES (?, ?, ?, ?)";
-        String orderItemsSql = "INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)";
-        String clearCartSql = "DELETE FROM cart WHERE customer_id = ?";
+        String orderSql = HexaConstants.INSERT_VALUES_INTO_ORDER;
+        String orderItemsSql = HexaConstants.INSERT_VALUES_INTO_ORDER_DETAILS;
+        String clearCartSql = HexaConstants.DELETE_CART_BY_CUSTOMER_ID;
 
         try {
             connection.setAutoCommit(false);
@@ -256,7 +253,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
 
     @Override
     public boolean removeFromCart(Customers customer, Products product) {
-        String sql = "DELETE FROM cart WHERE customer_id = ? AND product_id = ?";
+        String sql = HexaConstants.DELETE_CUSTOMER_BY_CUSTOMER_ID_AND_PRODUCT_ID;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customer.getCustomerId());
             ps.setInt(2, product.getProductId());

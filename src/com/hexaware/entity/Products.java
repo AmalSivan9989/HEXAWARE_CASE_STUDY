@@ -1,5 +1,7 @@
 package com.hexaware.entity;
 
+import com.hexaware.util.HexaConstants;
+
 public class Products {
     private int productId;
     private String productName;
@@ -64,4 +66,23 @@ public class Products {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append(price);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(productId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(productName);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(productDescription);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(stockQuantity);
+        sb.append(HexaConstants.DELIMITER);
+
+        return sb.toString();
+
+    }
+
 }

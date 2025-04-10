@@ -1,5 +1,7 @@
 package com.hexaware.entity;
 
+import com.hexaware.util.HexaConstants;
+
 public class Cart {
     private int cartId;
     private int customerId;
@@ -47,4 +49,20 @@ public class Cart {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append(cartId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(customerId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(productId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(quantity);
+        sb.append(HexaConstants.DELIMITER);
+
+        return sb.toString();
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.hexaware.entity;
 
+import com.hexaware.util.HexaConstants;
+
 public class Customers {
     private int CustomerId;
     private String customerName;
@@ -53,4 +55,23 @@ public class Customers {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append(CustomerId);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(customerName);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(email);
+        sb.append(HexaConstants.DELIMITER);
+        sb.append(password);
+        sb.append(HexaConstants.DELIMITER);
+
+        return sb.toString();
+    }
+
+
+
 }

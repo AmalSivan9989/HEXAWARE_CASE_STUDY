@@ -25,6 +25,8 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
     }
 
 
+
+
     @Override
     public boolean addToCart(Customers customer, Products product, int quantity) {
         String checkCustomerSql = HexaConstants.GET_CUSTOMER_BY_ID;
@@ -35,7 +37,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 throw new CustomerNotFoundException(HexaConstants.CUSTOMER_WITH_ID+ customer.getCustomerId() + HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | CustomerNotFoundException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             return false;
         }
 
@@ -48,7 +50,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 throw new ProductNotFoundException(HexaConstants.PRODUCT_WITH_ID+ product.getProductId() + HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | ProductNotFoundException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
             return false;
         }
         String sql = HexaConstants.INSERT_VALUES_INTO_CART;
@@ -58,7 +60,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setInt(3, quantity);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
             return false;
         }
     }
@@ -72,7 +74,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setString(3, customer.getPassword());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+        //    e.printStackTrace();
             return false;
         }
     }
@@ -87,7 +89,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setInt(4, product.getStockQuantity());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             return false;
         }
     }
@@ -102,7 +104,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 throw new CustomerNotFoundException(HexaConstants.CUSTOMER_WITH_ID+ customerId +HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | CustomerNotFoundException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
             return false;
         }
         String sql = HexaConstants.DELETE_CUSTOMER_BY_ID;
@@ -110,7 +112,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setInt(1, customerId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+       //     e.printStackTrace();
             return false;
         }
     }
@@ -125,7 +127,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 throw new ProductNotFoundException(HexaConstants.PRODUCT_WITH_ID+ productId +HexaConstants.NOT_FOUND);
             }
         } catch (SQLException | ProductNotFoundException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
             return false;
         }
         String sql = HexaConstants.DELETE_PRODUCT_BY_ID;
@@ -133,7 +135,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setInt(1, productId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             return false;
         }
     }
@@ -155,7 +157,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
         }
         return products;
     }
@@ -180,7 +182,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
                 orders.add(orderItem);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
         return orders;
     }
@@ -237,15 +239,15 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             try {
                 connection.rollback();
             } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
+               // rollbackEx.printStackTrace();
             }
-            e.printStackTrace();
+          //  e.printStackTrace();
             return false;
         } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException autoCommitEx) {
-                autoCommitEx.printStackTrace();
+              //  autoCommitEx.printStackTrace();
             }
         }
     }
@@ -258,7 +260,7 @@ public class OrderProcessorRepositoryImpl implements OrderProcessorRepository{
             ps.setInt(2, product.getProductId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             return false;
         }
     }

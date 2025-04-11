@@ -25,28 +25,41 @@ public class ProductOrderService {
         Products product = new Products();
         product.setProductId(1);
 
-        Map<Products,Integer> productMap=new HashMap<>();
-        productMap.put(product,1);
-        List<Map<Products, Integer>> productList=new ArrayList<>();
-        productList.add(productMap);
 
-        return orderService.placeOrder(customer,productList,"chennai");
+
+
+        if (customer.getCustomerId() > 0 && product.getProductId() > 0) {
+            Map<Products, Integer> productMap = new HashMap<>();
+            productMap.put(product, 1);
+            List<Map<Products, Integer>> productList = new ArrayList<>();
+            productList.add(productMap);
+
+            return orderService.placeOrder(customer, productList, "chennai");
+        }
+
+        return false;
     }
 
 
     public boolean testPlaceOrder2(){
 
+
         Customers customer = new Customers();
+
         customer.setCustomerId(10);
 
         Products product = new Products();
         product.setProductId(10);
 
-        Map<Products,Integer> productMap=new HashMap<>();
-        productMap.put(product,1);
-        List<Map<Products, Integer>> productList=new ArrayList<>();
-        productList.add(productMap);
+        if (customer.getCustomerId() > 0 && product.getProductId() > 0) {
+            Map<Products, Integer> productMap = new HashMap<>();
+            productMap.put(product, 1);
+            List<Map<Products, Integer>> productList = new ArrayList<>();
+            productList.add(productMap);
 
-        return orderService.placeOrder(customer,productList,"chennai");
+            return orderService.placeOrder(customer, productList, "chennai");
+        }
+
+        return false;
     }
 }

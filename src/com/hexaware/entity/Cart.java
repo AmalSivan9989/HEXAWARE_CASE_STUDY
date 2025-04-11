@@ -4,16 +4,16 @@ import com.hexaware.util.HexaConstants;
 
 public class Cart {
     private int cartId;
-    private int customerId;
-    private int productId;
+    private Customers customerId;
+    private Products productId;
     private int quantity;
 
     public Cart() {
     }
 
-    public Cart(int cartId, int customerId, int productId, int quantity) {
+    public Cart(int cartId, Customers customerId, Products productId, int quantity) {
         this.cartId = cartId;
-        this.customerId = customerId;
+        this.customerId= customerId;
         this.productId = productId;
         this.quantity = quantity;
     }
@@ -26,19 +26,19 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public int getCustomerId() {
+    public Customers getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Customers customerId) {
         this.customerId = customerId;
     }
 
-    public int getProductId() {
+    public Products getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Products productId) {
         this.productId = productId;
     }
 

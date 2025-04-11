@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Orders {
     private int orderId;
-    private int customerId;
+    private Customers customerId;
     private LocalDate orderDate;
     private double totalPrice;
     private String shippingAddress;
@@ -14,7 +14,7 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(int orderId, int customerId, LocalDate orderDate, double totalPrice, String shippingAddress) {
+    public Orders(int orderId, Customers customerId, LocalDate orderDate, double totalPrice, String shippingAddress) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -22,11 +22,11 @@ public class Orders {
         this.shippingAddress = shippingAddress;
     }
 
-    public int getCustomerId() {
+    public Customers getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Customers customerId) {
         this.customerId = customerId;
     }
 

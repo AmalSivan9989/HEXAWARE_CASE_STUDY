@@ -4,25 +4,25 @@ import com.hexaware.util.HexaConstants;
 
 public class OrderItems {
     private int orderItemId;
-    private int orderId;
-    private int productId;
+    private Orders orderId;
+    private Products productId;
     private int quantity;
 
     public OrderItems() {
     }
 
-    public OrderItems(int orderItemId, int orderId, int productId, int quantity) {
+    public OrderItems(int orderItemId, Orders orderId, Products productId, int quantity) {
         this.orderItemId = orderItemId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public int getOrderId() {
+    public Orders getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Orders orderId) {
         this.orderId = orderId;
     }
 
@@ -34,11 +34,11 @@ public class OrderItems {
         this.orderItemId = orderItemId;
     }
 
-    public int getProductId() {
+    public Products getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Products productId) {
         this.productId = productId;
     }
 
